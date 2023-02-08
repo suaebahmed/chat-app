@@ -16,7 +16,9 @@ const allUsers = asyncHandler(async (req, res) => {
     : {};
 
   const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
-  res.send(users);
+  // console.log(users);
+  // res.send(users);
+  res.status(201).json(users); // return json data
 });
 
 //@description     Register new user
@@ -64,11 +66,14 @@ const registerUser = asyncHandler(async (req, res) => {
 //@access          Public
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-
+  
   const user = await User.findOne({ email });
+  let isMatch = (await user.matchPassword(password));
+  // let token = generateToken(user._id);
+  // console.log('Your login token generated properly', token);
 
-  if (user && (await user.matchPassword(password))) {
-    res.json({
+  if (user && isMatch) {
+    res.status(201).json({ //  set respons status 201
       _id: user._id,
       name: user.name,
       email: user.email,

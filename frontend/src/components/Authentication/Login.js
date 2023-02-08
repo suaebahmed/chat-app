@@ -15,8 +15,8 @@ const Login = () => {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   const toast = useToast();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState(''); // I initialize empty string
+  const [password, setPassword] = useState(''); // I initialize empty string
   const [loading, setLoading] = useState(false);
 
   const history = useNavigate();
@@ -49,7 +49,7 @@ const Login = () => {
         config
       );
 
-      // console.log(JSON.stringify(data));
+      console.log(JSON.stringify(data), "login successful");
       toast({
         title: 'Login Successful',
         status: 'success',
@@ -81,7 +81,7 @@ const Login = () => {
           value={email}
           type="email"
           placeholder="Enter Your Email Address"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) =>setEmail(e.target.value)}
         />
       </FormControl>
       <FormControl id="password" isRequired>
@@ -115,7 +115,7 @@ const Login = () => {
         width="100%"
         onClick={() => {
           setEmail('guest@example.com');
-          setPassword('123456');
+          setPassword('12345');
         }}
       >
         Get Guest User Credentials

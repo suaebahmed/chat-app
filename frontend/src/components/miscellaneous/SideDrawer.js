@@ -81,9 +81,11 @@ function SideDrawer() {
         `/api/user?search=${search}`,
         config
       );
+      console.log("search data", data);
 
       setLoading(false);
       setSearchResult(data);
+
     } catch (error) {
       toast({
         title: 'Error Occured!',
@@ -139,7 +141,7 @@ function SideDrawer() {
         bg="white"
         w="100%"
         p="5px 10px 5px 10px"
-        borderWidth="5px"
+        borderWidth="3px"
       >
         <Tooltip
           label="Search Users to chat"
@@ -225,16 +227,17 @@ function SideDrawer() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
+              {/* Search button */}
               <Button onClick={handleSearch}>Go</Button>
             </Box>
             {loading ? (
               <ChatLoading />
             ) : (
-              searchResult?.map((user) => (
+              searchResult?.map((searchUser) => (
                 <UserListItem
-                  key={user._id}
-                  user={user}
-                  handleFunction={() => accessChat(user._id)}
+                  key={searchUser._id}
+                  user={searchUser}
+                  handleFunction={() => accessChat(searchUser._id)}
                 />
               ))
             )}

@@ -49,7 +49,7 @@ app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-
+// this server is nunning..
 const server = app.listen(
   5000,
   console.log(`Server running on PORT ${PORT}...`.yellow.bold)

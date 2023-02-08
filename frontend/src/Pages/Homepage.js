@@ -17,11 +17,10 @@ function Homepage() {
   const history = useNavigate();
 
   useEffect(() => {
-    // const user = JSON.parse(localStorage.getItem('userInfo'));
-    const user = localStorage.getItem('userInfo');
+    const user = JSON.parse(localStorage.getItem('userInfo'));
 
     if (user){
-      console.log(user);
+      // console.log(user);
       history('/chats');
     }
   }, [history]);
