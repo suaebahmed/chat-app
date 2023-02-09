@@ -1,13 +1,14 @@
 const express = require('express');
-const connectDB = require('./config/db');
+const cors = require('cors');
+const connectDB = require('./backend/config/db');
 const dotenv = require('dotenv');
-const userRoutes = require('./routes/userRoutes');
-const chatRoutes = require('./routes/chatRoutes');
-const messageRoutes = require('./routes/messageRoutes');
+const userRoutes = require('./backend/routes/userRoutes');
+const chatRoutes = require('./backend/routes/chatRoutes');
+const messageRoutes = require('./backend/routes/messageRoutes');
 const {
   notFound,
   errorHandler,
-} = require('./middleware/errorMiddleware');
+} = require('./backend/middleware/errorMiddleware');
 const path = require('path');
 
 dotenv.config();
@@ -15,10 +16,12 @@ connectDB();
 const app = express();
 
 app.use(express.json()); // to accept json data
+app.use(cors());
 
-// app.get("/", (req, res) => {
-//   res.send("API Running!");
-// });
+app.get("/", (req, res) => {
+  res.setHeader('Access-Control-Allow-Credentials','true');
+  res.send("API Running!");
+});
 
 app.use('/api/user', userRoutes);
 app.use('/api/chat', chatRoutes);
@@ -51,15 +54,15 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 // this server is nunning..
 const server = app.listen(
-  5000,
+  PORT,
   console.log(`Server running on PORT ${PORT}...`.yellow.bold)
 );
 
 const io = require('socket.io')(server, {
   pingTimeout: 60000,
   cors: {
-    origin: 'http://localhost:3000',
-    // credentials: true,
+    origin: process.env.SOCKET_CONNECION_ORIGIN,
+    credentials: true,
   },
 });
 
